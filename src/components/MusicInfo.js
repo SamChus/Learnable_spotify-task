@@ -7,12 +7,13 @@ const Flex = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 0px 20px;
-    width: 80%;
+    width: 90%;
     margin: 0px 10px;
     white-space: nowrap;
     font-size: 15px;
     cursor: pointer;
     font-weight: 550;
+    overflow: scroll;
 
     &:hover{
         transform: scale(1.02);
@@ -21,12 +22,16 @@ const Flex = styled.div`
         box-shadow: -2px 12px 18px #ccc;
     }
 
+    svg{
+        
+    }
+
 `
 
 const MusicInfo = ({title,artist,time,album}) => {
     return ( 
         <Flex>
-            <FaSoundcloud />
+            <FaSoundcloud size={10}/>
             <p>{title}</p>
             <p>{artist}</p>
             <p>{time}</p>

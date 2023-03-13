@@ -1,13 +1,17 @@
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
+import { DataContext } from "../contexts/DataContext";
 
 const SearchBox = () => {
+  const { state, dispatch } = useContext(DataContext);
+  const { tracks } = state;
   const [searchQuery, setSearchQuery] = useState("");
-  const [preview, setPreview] = useState(null);
-  const [tracks, setTracks] = useState(null);
   const token = window.localStorage.getItem("token");
+  console.log(tracks);
+
+
 
   const searchArtist = async () => {
     const apiUrl = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
@@ -21,12 +25,18 @@ const SearchBox = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        const tracks = data.tracks.items;
-        // const previewUrls = tracks.map((track) => track.preview_url);
-        console.log(tracks);
-        console.log(data);
-
-        // setPreview(previewUrls[4])
+        const tracks = data.tracks.items.map(item => {
+          return {
+            image: item.album.images[0].url,
+            artist: item.artists[0].name,
+            album: item.album.name,
+            trackLength: item.duration_ms,
+            trackName: item.name,
+            previewUrl: item.preview_url
+          };
+        });
+        dispatch({ type: 'UPDATE_TRACKS', payload: tracks });
+    
       })
       .catch((error) => console.error(error));
   };
@@ -41,7 +51,7 @@ const SearchBox = () => {
           placeholder="Search for artist, songs and ..."
         />
       </StyledBox>
-      {tracks && <SpotifyTrack track={tracks} />}
+      {/* {tracks && <SpotifyTrack track={tracks} />} */}
     </div>
   );
 };
@@ -77,21 +87,22 @@ const StyledBox = styled.div`
 //   );
 // };
 
-const SpotifyTrack = ({ track }) => {
-  const { name: trackName, artists, album, duration_ms, preview_url } = track;
-  const artistNames = artists.map((artist) => artist.name).join(", ");
+// const SpotifyTrack = ({ track }) => {
+//   const { trackName, artists, album, trackLength, preview_url, image } = track;
+//   const artistNames = artists?.map((artist) => artist.name).join(", ");
 
-  // Convert track length in milliseconds to mm:ss format
-  const trackLength = new Date(duration_ms).toISOString().substr(14, 5);
+//   // Convert track length in milliseconds to mm:ss format
+//   const Length = new Date(trackLength).toISOString().substr(14, 5)
 
-  return (
-    <div>
-      <img src={album.images[0].url} alt={album.name} />
-      <h3>{trackName}</h3>
-      <p>{artistNames}</p>
-      <p>{album.name}</p>
-      <p>{trackLength}</p>
-      <audio src={preview_url} controls />
-    </div>
-  );
-};
+//   return (
+//     <div style={{marginLeft: "30px"}}>
+//       <img style={{width: "30px"}} src={image} alt={album.name} />
+//       <h3>{trackName}</h3>
+//       <p>{artistNames}</p>
+//       <p>{album.name}</p>
+//       <p>{Length}</p>
+//        <audio src={preview_url} controls />
+
+//     </div>
+//   );
+// };

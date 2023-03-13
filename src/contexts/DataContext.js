@@ -1,59 +1,30 @@
 import { createContext, useReducer } from "react";
 
-export const DataContext = createContext()
+export const DataContext = createContext();
 
 const DataContextProvider = (props) => {
-    const initialState ={
-        title: null,
-        artist: null,
-        time: null,
-        album: null,
-        plsrc: null,
-        img: null,
-        name: null,
-        songs: null,
-        src: null
+  const initialState = {
+    tracks: [],
+  };
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "UPDATE_TRACKS":
+        return {
+          ...state,
+          tracks: action.payload,
+        };
+      default:
+        return state;
     }
-    const reducer = (state, action) =>{
-        switch (action.type) {
-            case "PLAYLIST":
-                return {
-                    ...state,
-                    title: action.payload.title,
-                    artist: action.payload.artist,
-                    time: action.payload.time,
-                    album: action.payload.album,
-                    plsrc: action.payload.plsrc
+  };
 
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-                };
-                case "FAVOURITE":
-                return {
-                    ...state,
-                    img: action.payload.img,
-                    name: action.payload.name,
-                    songs: action.payload.songs
+  return (
+    <DataContext.Provider value={{ state, dispatch }}>
+      {props.children}
+    </DataContext.Provider>
+  );
+};
 
-                };
-                case "SEARCH":
-                return {
-                    ...state,
-                    src: action.payload.src
-                };
-               
-        
-            default:
-               return state;
-        }
-    }
-
-    const [state, dispatch] = useReducer(reducer, initialState)
-
-    return (  
-        <DataContext.Provider value={{state, dispatch}}>
-            {props.children}
-        </DataContext.Provider>
-    );
-}
- 
 export default DataContextProvider;

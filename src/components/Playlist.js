@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import ControlField from "./ControlField";
+import { DataContext } from "../contexts/DataContext";
+import { useContext } from "react";
 import MusicInfo from "./MusicInfo";
 
 const Container = styled.div`
   width: 100%;
   padding: 0 6px;
-
+  max-height: 500px;
+  overflow-y: scroll;
   /* max-width: 400px; */
 `;
 
@@ -25,6 +28,15 @@ const ListHeader = styled.div`
   color: #777;
 `;
 const Playlist = () => {
+  const { state} = useContext(DataContext);
+
+  const { tracks } = state;
+
+  const duration = (dur) => {
+    const tracklen = new Date(dur).toISOString().substr(14, 5);
+    return tracklen;
+  };
+
   return (
     <Container>
       <Flex>
@@ -38,25 +50,14 @@ const Playlist = () => {
         <p>TIME</p>
         <p>ALBUM</p>
       </ListHeader>
-      <MusicInfo
-        title={"Priority"}
-        artist={"Mos Def"}
-        time={"1:25"}
-        album={"The Ecstatic"}
-      />{" "}
-      <MusicInfo
-        title={"Priority"}
-        artist={"Mos Def"}
-        time={"1:25"}
-        album={"The Ecstatic"}
-      />{" "}
-      <MusicInfo
-        title={"Priority"}
-        artist={"Mos Def"}
-        time={"1:25"}
-        album={"The Ecstatic"}
-      />
-      <ControlField />
+        {tracks && tracks.slice(0,5).map((track,i)=>(
+          <MusicInfo key={i}
+          title={track.trackName}
+          artist={track.artist}
+          time={duration(track.trackLength)}
+          album={track.album}
+        />
+        ))}
     </Container>
   );
 };

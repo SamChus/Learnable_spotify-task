@@ -12,6 +12,8 @@ import {
   FaSpeakerDeck,
   FaSpotify,
 } from "react-icons/fa";
+import { DataContext } from "../contexts/DataContext";
+import { useContext } from "react";
 
 const Container = styled.div`
   background: #fff;
@@ -68,6 +70,10 @@ const Controller = styled.div`
 `;
 
 const ControlField = () => {
+  const { state} = useContext(DataContext);
+
+  const { tracks } = state;
+  console.log(tracks[0].previewUrl);
   return (
     <div>
       <Container>
