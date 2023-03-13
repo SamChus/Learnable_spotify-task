@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import styled from "styled-components";
 
 const CLIENT_ID = "972c19250b664b439f22bf56eaa0e49a";
-const REDIRECT_URI = "http://localhost:3001/home";
+const REDIRECT_URI = "https://learnable-spotify-task.vercel.app/home";
 const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
 const RESPONSE_TYPE = "token";
 
