@@ -5,11 +5,11 @@ import { useState, useContext } from "react";
 import { DataContext } from "../contexts/DataContext";
 
 const SearchBox = () => {
-  const { state, dispatch } = useContext(DataContext);
-  const { tracks } = state;
+  // const { state, dispatch } = useContext(DataContext);
+  // const { tracks } = state;
   const [searchQuery, setSearchQuery] = useState("");
   const token = window.localStorage.getItem("token");
-  console.log(tracks[1]);
+  // console.log(tracks[1]);
 
 
 
@@ -51,7 +51,7 @@ const SearchBox = () => {
           placeholder="Search for artist, songs and ..."
         />
       </StyledBox>
-      {tracks && <SpotifyTrack track={tracks[1]} />}
+      {/* {tracks && <SpotifyTrack track={tracks[1]} />} */}
     </div>
   );
 };
@@ -87,22 +87,22 @@ const StyledBox = styled.div`
 //   );
 // };
 
-const SpotifyTrack = ({ track }) => {
-  const { trackName, artists, album, trackLength, preview_url, image } = track;
-  const artistNames = artists?.map((artist) => artist.name).join(", ");
+// const SpotifyTrack = ({ track }) => {
+//   const { trackName, artists, album, trackLength, preview_url, image } = track;
+//   const artistNames = artists?.map((artist) => artist.name).join(", ");
 
-  // Convert track length in milliseconds to mm:ss format
-  const Length = new Date(trackLength).toISOString().substr(14, 5)
+//   // Convert track length in milliseconds to mm:ss format
+//   const Length = new Date(trackLength).toISOString().substr(14, 5)
 
-  return (
-    <div style={{marginLeft: "30px"}}>
-      <img style={{width: "30px"}} src={image} alt={album.name} />
-      <h3>{trackName}</h3>
-      <p>{artistNames}</p>
-      <p>{album.name}</p>
-      <p>{Length}</p>
-       <audio src={preview_url} controls />
+//   return (
+//     <div style={{marginLeft: "30px"}}>
+//       <img style={{width: "30px"}} src={image} alt={album.name} />
+//       <h3>{trackName}</h3>
+//       <p>{artistNames}</p>
+//       <p>{album.name}</p>
+//       <p>{Length}</p>
+//        <audio src={preview_url} controls />
 
-    </div>
-  );
-};
+//     </div>
+//   );
+// };
